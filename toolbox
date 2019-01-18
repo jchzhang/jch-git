@@ -12,8 +12,8 @@
 <body>
     <div style='width:500px;height:500px;' id='test'></div>
     <div>
-        <button id='bnt'>点我</button>
-        <button id='bnt2'>点我吧</button>
+        <button id='bnt'>点我开始缩放</button>
+        <button id='bnt2'>点我还原</button>
     </div>
 </body>
 <style>
@@ -132,6 +132,7 @@
                 flag = true;
                 console.log(e.offsetX, e.offsetY)
                 startX = e.offsetX;
+                //此处的500是图表的宽度,具体数值应该根据自己的图表大小设定，最好直接获取DOM元素的width
                 start = Math.ceil(e.offsetX / 500 * 100);
                 const div = document.createElement('div');
                 div.style.left = e.offsetX + 'px';
@@ -167,7 +168,7 @@
         }
 
         //echartsDOM
-        // console.log(echarts.getInstanceByDom(document.getElementById('test'))._dom);
+        // 还原
         var bnt2 = document.getElementById('bnt2');
         bnt2.onclick = function () {
             flag2 = false;
