@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    let arr = [{ name: 'zhangsan', price: 100, num: 12, amount: 20 },
+    { name: 'zhangsan', price: 110, num: 2, amount: 40 },
+    { name: 'lisi', price: 160, num: 18, amount: 10 }];
+    const dataProcess = (name, arr) => {
+        const result = arr.reduce((item, current) => {
+            return {
+                name: name,
+                price: item.price + current.price,
+                num: item.num + current.num,
+                amount: item.amount + current.amount
+            }
+        }, {
+                price: 0,
+                num: 0,
+                amount: 0
+            })
+        return result;
+    }
+   const num = (index = 0, arr, obj) => {
+        if (index >= 1 && index < arr.length) {
+            if (arr[index].name === arr[index - 1].name) {
+                obj[arr[index].name].push(arr[index]);
+                num(index + 1, arr, obj)
+            } else {
+                obj[arr[index].name] = [arr[index]];
+                num(index + 1, arr, obj);
+
+            }
+        } else if (index < arr.length) {
+            obj[arr[index].name] = [arr[index]]
+            index++;
+            num(index, arr, obj)
+        }
+        return obj
+    }
+    const result1 = num(0, arr, {});
+    const result2 = function (result1) {
+        
+        const arr = [];
+        for (let k in result1) {
+            const kk = dataProcess(k, result1[k]);
+            arr.push(kk);
+        }
+        return arr
+    }
+    console.log(result2(result1))
+</script>
