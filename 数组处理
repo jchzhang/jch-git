@@ -36,7 +36,7 @@
         };
         const num = (index = 0, arr, obj) => {
             if (index >= 1 && index < arr.length) {
-                if (arr[index].name === arr[index - 1].name) {
+                if (arr[index].name === arr[index - 1].name||obj[arr[index].name]) {
                     obj[arr[index].name].push(arr[index]);
                     num(index + 1, arr, obj)
                 } else {
