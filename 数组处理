@@ -59,7 +59,7 @@
         }
         return arr
     }
-    console.log(result2(result1))；
+    console.log(result2(result1));
     //单独封装成一个函数
     const dataProcessArray = (arr) => {
         const dataProcess = (name, arr) => {
