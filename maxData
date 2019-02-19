@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    const arr = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [5, 6, 7, 8, 9, 55], [3, 6, 88, 15, 18]]
+    const maxData = function (arr) {
+        const result = []
+        arr.map((item, i) => {
+            const result2 = item.map((item2, j) => {
+                return {
+                    group: i,
+                    id: j,
+                    value: item2
+                }
+            })
+            result.push(...result2)
+        });
+        function maxData2(arr, fn) {
+            let len = arr.length;
+            let count = 0;
+            while (len--) {
+                for (let i = 0; i < len; i++) {
+                    if (fn(arr[i].value, arr[i + 1].value) > 0) {
+                        [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+                        count++
+                    }
+                }
+                if (count === 0) {
+                    return
+                }
+            }
+            return arr
+        }
+        maxData2(result, (a, b) => b - a);
+        return result
+    }
+    console.log(maxData(arr).splice(0,10))
+</script>
