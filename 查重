@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    //"ghdhx hehxuhgwgs jjebfujaveg"找出字符串中，重复次数最多的字符
+    const str = "ghdhx hehxuhgwgs jjebfujaveg";
+    const obj = {};
+    for (let i = 0; i < str.length; i++) {
+        if (obj[str.charAt(i)]) {
+            obj[str.charAt(i)]++
+        } else {
+            obj[str.charAt(i)] = 1
+        }
+    }
+    const values = Math.max.apply(null,Object.values(obj));
+    const index = Object.values(obj).indexOf(values);
+    const name = Object.keys(obj)[index]
+    console.log(`${name}出现了最多，有${values}次`)
+</script>
