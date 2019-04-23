@@ -1,0 +1,38 @@
+export function taskDateOption(day, date) {
+  let today = new Date(date);
+  let targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+  today.setTime(targetday_milliseconds);
+  let tMonth = today.getMonth();
+  let tDate = today.getDate();
+  let tDay = today.getDay();
+  tMonth = doHandleMonth(tMonth + 1);
+  tDate = doHandleMonth(tDate);
+  let useDay;
+  switch (tDay) {
+    case 1: useDay = '星期一';
+      break;
+    case 2: useDay = '星期二'
+      break;
+    case 3: useDay = '星期三'
+      break;
+    case 4: useDay = '星期四'
+      break;
+    case 5: useDay = '星期五'
+      break;
+    case 6: useDay = '星期六'
+      break;
+    case 0: useDay = '星期日'
+      break;
+  }
+  return {
+    date: tMonth + "-" + tDate,
+    day: useDay
+  };
+  function doHandleMonth(month) {
+    let m = month;
+    if (month.toString().length == 1) {
+      m = "0" + month;
+    }
+    return m;
+  }
+}
