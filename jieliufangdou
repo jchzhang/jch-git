@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id='testInp' />
+    <input id='test2' />
+</body>
+
+</html>
+<script>
+    //节流和防抖
+    function jieliu(fn) {
+        let timeOut = null;
+        return function () {
+            console.log('我调用了')
+            clearTimeout(timeOut);
+            timeOut = setTimeout(() => {
+                fn.apply(this, arguments)
+            }, 500)
+        }
+    }
+    function consInfo() {
+        console.log('打印')
+    }
+    const inp = document.getElementById('testInp');
+    inp.addEventListener('input', jieliu(consInfo));
+    function fangdou(fn) {
+        let flag = true;
+        return function () {
+            if (!flag) return;
+            flag = false;
+            setTimeout(() => {
+                fn.apply(this, arguments);
+                flag = true
+            }, 500)
+        }
+    };
+    const inp2 = document.getElementById('test2');
+    inp2.addEventListener('input',fangdou(consInfo))
+</script>
