@@ -1,0 +1,1 @@
+element.scrollIntoview(bool) ; 可以将元素滚动到可视区域，bool为true时，与可视区域顶部对齐，反之与可视区域底部对齐。
