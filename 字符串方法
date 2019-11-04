@@ -1,0 +1,22 @@
+//在src中查找一个最长的连续字符串，该字符串全部由chars中的字符组成
+    function son(src, chars) {
+        let length = 0;
+        let result;
+        for (let i = 0; i < src.length; i++) {
+            for (let j = 1; j < src.length; j++) {
+                const son = src.substr(i, j);
+                let flag = true;
+                for(let k=0;k<son.length;k++){
+                    if(!chars.includes(son.split('')[k])){
+                        flag = false
+                    }
+                }
+                if(flag&&son.length>length){
+                    length=son.length;
+                    result= son
+                }
+            }
+
+        }
+        return result 
+    }
