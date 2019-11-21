@@ -23,41 +23,43 @@
             { id: '11', label: '城南3', children: [{ id: '12', label: '城南街道3' }, { id: '13', label: '城南街道4',children:[{id:'24',label:'cc'}] }] }]
         }]
     }]
-    function clear2(arr, str,num) {
-        let obj = {
-            0: []
-        }
-        let result;
-        const clear = (arr, arr2) => {
-            arr.map((item, index) => {
-                if (arr.length > 1) {
-                    obj[item.id] = [...arr2];
-                    if (item.children) {
-                        obj[item.id].push(item.id);
-                        clear(item.children, obj[item.id])
-                    } else {
-                        obj[item.id].push(item.id);
-                        return
-                    }
-                } else {
-                    if (item.children) {
-                        arr2.push(item.id);
-                        clear(item.children, arr2)
-                    } else {
-                        arr2.push(item.id);
-                        return
-                    }
-                }
-            })
-            return obj
-        }
-        const objList = clear(arr, obj[0])
-        for (let k in objList) {
-            if (objList[k][num-1] === str) {
-                result = objList[k]
-            }
-        }
-        return result
+    function getTreeClear(arr, str, num) {
+    let obj = {
+        0: []
     }
+    let result;
+    const clear = (arr, arr2) => {
+        arr.map((item, index) => {
+            if (arr.length > 1) {
+                const a = Symbol(item.value)
+                obj[a] = [...arr2];
+                if (item.children) {
+                    obj[a].push(item.value);
+                    clear(item.children, obj[a])
+                } else {
+                    obj[a].push(item.value);
+                    return
+                }
+            } else {
+                if (item.children) {
+                    arr2.push(item.value);
+                    clear(item.children, arr2)
+                } else {
+                    arr2.push(item.value);
+                    return
+                }
+            }
+        })
+        return obj
+    }
+    const objList = clear(arr, obj[0])
+    const objList2 =  Reflect.ownKeys(objList);
+    for (let k of objList2) {
+        if (objList[k][num - 1] === str) {
+            result = objList[k]
+        }
+    }
+    return result
+}
     console.log(clear2(arr, '22',5));//数字5代表第五级
 </script>
