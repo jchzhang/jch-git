@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>坐标转换</title>
+  </head>
+  <body>
+    <div>
+      <canvas id="mycanvas" width="512px" height="256px"></canvas>
+      <canvas id="canvas2" width="512px" height="512px"></canvas>
+    </div>
+  </body>
+</html>
+<script src="https://unpkg.com/roughjs@latest/bundled/rough.js"></script>
+<script>
+  const mycanvas = rough.canvas(document.getElementById("mycanvas"));
+  const ctx = mycanvas.ctx;
+  ctx.translate(256, 256);
+  ctx.scale(1, -1);
+  const hill = { roughness: 2.8, strokeWidth: 3, fill: "blue" };
+  mycanvas.path("M-180 0L-80 100L20 0");
+  mycanvas.path("M180 0L80 100L-20 0", hill);
+  mycanvas.circle(0, 150, 105, {
+    strokeWidth: 3,
+    stroke: "red",
+    fill: "rgba(255,255,0,0.4)",
+    fillStyle: "solid",
+  });
+
+  //生成树
+  const mycanvas2 = document.getElementById("canvas2");
+  const ctx2 = mycanvas2.getContext("2d");
+  ctx2.translate(0, 512);
+  ctx2.scale(1, -1);
+  ctx2.lineCap = "round";
+  //   ctx2.beginPath();
+  //   ctx2.arc(100, 100, 50, 0, Math.PI * 2, false);
+  //   ctx2.closePath();
+  //   ctx2.stroke();
+  class Vector2D {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+    }
+    scale(length) {
+      const { x, y } = this;
+      this.x = x * length;
+      this.y = y * length;
+      return this;
+    }
+    add(v) {
+      const { x, y } = this;
+
+      this.x = x + v.x;
+      this.y = y + v.y;
+      return this;
+    }
+    rotate(rad) {
+      // console.log(this)
+      const c = Math.cos(rad),
+        s = Math.sin(rad);
+      const { x, y } = this;
+      this.x = x * c + y * -s;
+      this.y = x * s + y * c;
+      return this;
+    }
+  }
+  const treeRender = function (context, v0, length, thickness, dir, bias) {
+    context.beginPath();
+    context.moveTo(v0.x, v0.y);
+    // ctx2.lineTo(v0.x + 100, v0.y + 100);
+    const v = new Vector2D(1, 0).rotate(dir).scale(length);
+    const v1 = new Vector2D(v0.x, v0.y).add(v);
+    // console.log(v1, v0);
+    context.lineTo(v1.x, v1.y);
+    context.lineWidth = thickness;
+    context.closePath();
+    context.stroke();
+    if (thickness < 5 && Math.random() < 0.3) {
+      context.save();
+      context.strokeStyle = "#c72c35";
+      const th = Math.random() * 6 + 3;
+      context.lineWidth = th;
+      context.beginPath();
+      context.moveTo(v1.x, v1.y);
+      context.lineTo(v1.x, v1.y - 2);
+      context.stroke();
+      context.restore();
+    }
+    if (thickness > 2) {
+      const left =
+        Math.PI / 4 + 0.5 * (dir + 0.2) + bias * (Math.random() - 0.5);
+      treeRender(context, v1, length * 0.9, thickness * 0.8, left, bias * 0.9);
+      const right =
+        Math.PI / 4 + 0.5 * (dir - 0.2) + bias * (Math.random() - 0.5);
+      treeRender(context, v1, length * 0.9, thickness * 0.8, right, bias * 0.9);
+    }
+  };
+  const v0 = new Vector2D(256, 0);
+  //   console.log(v0.rotate(Math.PI))
+  treeRender(ctx2, v0, 50, 10, 1, 3);
+</script>
